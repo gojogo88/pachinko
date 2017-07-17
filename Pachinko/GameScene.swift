@@ -20,6 +20,12 @@ class GameScene: SKScene {
         addChild(background)  //doens't use viewController so we need to use this.  We can add nodes to other nodes.
     
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)  //adds a physicsBody to the whole scene that is a line on each edge effectively acting as a container for the scene
+    
+        let bouncer = SKSpriteNode(imageNamed: "bouncer")
+        bouncer.position = CGPoint(x: 512, y: 0)  //centered horizontally at the bottom edge of the screen
+        bouncer.physicsBody = SKPhysicsBody(circleOfRadius: bouncer.size.width / 2)
+        bouncer.physicsBody!.isDynamic = false  //if true, the bouncer will be moved by the physicsBody based on collisions, etc.
+        addChild(bouncer)
     }
     
     
@@ -29,10 +35,11 @@ class GameScene: SKScene {
         if let touch = touches.first {  //looks for the first touch
             
             let location = touch.location(in: self) //finds out where the screen was touched in relation to self (gamescene) and puts it there
-            let box = SKSpriteNode(color: UIColor.red, size: CGSize(width: 64, height: 64))  //creates a box
-            box.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))  //add a physicsbody for the box
-            box.position = location  //places the box where the screen was touched
-            addChild(box)  // then adds it to the scene (displaying the box)
+            let ball = SKSpriteNode(imageNamed: "ballRed")  //creates a ball
+            ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)  //add a physicsbody for the ball
+            ball.physicsBody!.restitution = 0.4  //bounciness of the ball (0-1)
+            ball.position = location  //places the ball where the screen was touched
+            addChild(ball)  // then adds it to the scene (displaying the ball)
         }
     }
 }
